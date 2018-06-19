@@ -35,4 +35,4 @@ from a  cv::Mat, you should better rely on the OpenJPEG encoders
 ## Dependencies
 - OpenCV >= 3.3.1
 - OpenJPEG 2.3.0
-- CMake >= 2.8
+- CMake >= 2.8  /!\ For the moment, you will need to change the CMakeList according to your install
