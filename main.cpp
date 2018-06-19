@@ -3,11 +3,7 @@
  *
  * License : MIT
  * Date : 06/2018 (MM/YYYY)
- * Author : Rémi Ratajczak (c) Copyright @LIRIS @CLB @ADEME @UnivLyon
- *  LIRIS stands for
- *  CLB stands for
- *  ADEME stands for
- *  UnivLyon stads for
+ * Author : RÃ©mi Ratajczak
  *
  * ------------------------------------------------------------------
  *                     Why this file?
