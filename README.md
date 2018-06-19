@@ -39,9 +39,7 @@ from a  cv::Mat, you should better rely on the OpenJPEG encoders
 
 ## To Install
 1) Change the CMakeList according to your install (the hardest part!) 
-- Change absolute and relative paths for OpenCV, OpenJPEG and redistributables (saved dll).
-- Remove unecessary instructions (CPACK, MSVC...)
-- Add/Change release and debug modes related instructions
+- Change absolute and relative paths for OpenCV, OpenJPEG, etc.
 2) Go to the root directory with command line or clicks. <br> 
 ``` cd path/to/OpenJPEGxOpenCV/ ```
 3) Create a build directory with command line or clicks.<br>
