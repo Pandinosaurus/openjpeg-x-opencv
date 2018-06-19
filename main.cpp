@@ -64,7 +64,7 @@ using namespace cv;
 using namespace std;
 
 ////////////////////////////////////////////////////////////////////
-// Useful namespaces
+// Show debug messages or not
 bool DEBUG = true;
 
 
@@ -150,11 +150,11 @@ bool getJP2Image(const char* pathToImgWithExtension, cv::Mat & opcv_output)
     int width = mopj_img->x1;
     int height = mopj_img->y1;
     int channels = mopj_img->numcomps;
-    opcv_output = cv::Mat(cv::Size(width, height), CV_8UC1); /* latter, we will need to cast OPJ_INT32 data to uchar */
+    opcv_output = cv::Mat(cv::Size(width, height), CV_8UC1); /* later, we will need to cast OPJ_INT32 data to uchar */
     for(int channel = 0; channel < channels; channel++) /* iterate through the image pixels stored in the components data of an opj_image pointer */
         for (int col = 0; col < width; col++)
             for (int row = 0; row < height; row++)
-                opcv_output.at<uchar>(cv::Point(col, row)) = (uchar)*(mopj_img->comps->data++); /* we assume file is continuous on memory adress ; plus be aware of the cast to uchar */
+                opcv_output.at<uchar>(cv::Point(col, row)) = (uchar)*(mopj_img->comps->data++); /* we assume file is continuous on memory ; be aware of the cast to uchar */
 
     /* Clean memory */
     if (mparameters != NULL &&
