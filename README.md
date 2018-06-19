@@ -33,6 +33,20 @@ from a  cv::Mat, you should better rely on the OpenJPEG encoders
 (not demonstrated in this file for the moment).
 
 ## Dependencies
-- OpenCV >= 3.3.1
-- OpenJPEG 2.3.0
-- CMake >= 2.8  /!\ For the moment, you will need to change the CMakeList according to your install
+- OpenCV >= 3.3.1 ( tried with a build from source on Windows with msvc2015 : https://github.com/opencv/opencv )
+- OpenJPEG 2.3.0 ( tried with a build from source on Windows with msvc2015 : https://github.com/uclouvain/openjpeg )
+- CMake >= 2.8  
+
+## To Install
+1) Change the CMakeList according to your install (the hardest part!) 
+- Change absolute and relative paths for OpenCV, OpenJPEG and redistributables (saved dll).
+- Remove unecessary instructions (CPACK, MSVC...)
+- Add/Change release and debug modes related instructions
+2) Go to the root directory with command line or clicks. <br> 
+``` cd path/to/OpenJPEGxOpenCV/ ```
+3) Create a build directory with command line or clicks.<br>
+``` mkdir ./build ```
+4) Generate project with CMake with command line or GUI (recommended). <br>
+```bash cd ./build ``` <br>
+``` cmake .. ```
+5) Now you need to build your project with your favorite compiler. For this sample, we tried msvc2015 x86 on Windows 10 with the GUI of Visual Studio 2017 in release mode.
