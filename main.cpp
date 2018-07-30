@@ -99,8 +99,9 @@ void set_default_parameters(opj_dparameters* parameters)
         memset(parameters, 0, sizeof(opj_dparameters));
 
         /* default decoding parameters (command line specific) */
-        parameters->decod_format = -1;
-        parameters->cod_format = -1;
+        parameters->decod_format = 1; //jp2
+        parameters->cod_format = 2; //bmp
+        parameters->cp_reduce = 0; //full resolution
 
         /* default decoding parameters (core) */
         opj_set_default_decoder_parameters(parameters);
@@ -121,6 +122,7 @@ bool getJP2Image(const char* pathToImgWithExtension, cv::Mat & opcv_output)
 
     /* Sample OpenJpeg imread image */
     opj_dparameters* mparameters = new opj_dparameters();
+    set_default_parameters(mparameters);
     std::strcpy(mparameters->infile, pathToImgWithExtension);
 
     /* Open a stream on a .jp2 image */
@@ -147,14 +149,19 @@ bool getJP2Image(const char* pathToImgWithExtension, cv::Mat & opcv_output)
 
     /* Copy decoded data in cv::Mat using pointers arithmetics  - note that we are copying the data to avoid segfaults */
     /* NB : as this is a minimal example, we assume that the .jp2 file represents a grayscale image - a bit more work would be involved to handle multichannels images */
-    int width = mopj_img->x1;
-    int height = mopj_img->y1;
+        int width = mopj_img->comps->w;
+    int height = mopj_img->comps->h;
     int channels = mopj_img->numcomps;
-    opcv_output = cv::Mat(cv::Size(width, height), CV_8UC1); /* later, we will need to cast OPJ_INT32 data to uchar */
-    for(int channel = 0; channel < channels; channel++) /* iterate through the image pixels stored in the components data of an opj_image pointer */
-        for (int col = 0; col < width; col++)
-            for (int row = 0; row < height; row++)
-                opcv_output.at<uchar>(cv::Point(col, row)) = (uchar)*(mopj_img->comps->data++); /* we assume file is continuous on memory ; be aware of the cast to uchar */
+    opcv_output = cv::Mat(cv::Size(width, height), CV_8UC1); /* latter, we will need to cast OPJ_INT32 data to uchar */
+    /* iterate through the image pixels stored in the components data of an opj_image pointer */
+    for (int col = 0; col < width; col++)
+        for (int row = 0; row < height; row++)
+            for (int channel = 0; channel < channels; channel++)
+            {
+                // Based on imagemagick implementation https://github.com/ImageMagick/ImageMagick/blob/master/coders/jp2.c
+                opcv_output.at<uchar>(cv::Point(col, row)) = uchar((mopj_img->comps[channel].data[row / mopj_img->comps[channel].dy*width / mopj_img->comps[channel].dx + col / mopj_img->comps[channel].dx] +
+                        (mopj_img->comps[channel].sgnd ? 1 << (mopj_img->comps[channel].prec - 1) : 0))); //(uchar)*(mopj_img->comps->data++); /* we assume file is continuous on memory adress ; plus be aware of the cast to uchar */
+            }
 
     /* Clean memory */
     if (mparameters != NULL &&
