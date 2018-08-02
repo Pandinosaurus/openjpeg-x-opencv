@@ -166,12 +166,9 @@ bool getJP2Image(const char* pathToImgWithExtension, cv::Mat & opcv_output)
     /* Clean memory */
     if (mparameters != NULL &&
         mparameters != nullptr) delete mparameters;
-    if (mopj_stream_fname != NULL &&
-        mopj_stream_fname != nullptr) delete mopj_stream_fname;
-    if (mopj_codec != NULL &&
-        mopj_codec != nullptr) delete mopj_codec;
-    if (mopj_img != NULL &&
-        mopj_img != nullptr) delete mopj_img;
+    opj_stream_destroy(mopj_stream_fname);
+    opj_destroy_codec(mopj_codec);
+    opj_image_destroy(mopj_img);
 
     return true;
 }
