@@ -2,6 +2,7 @@
 
 A minimal example for integrating OpenJPEG with OpenCV as a replacement for Jasper.
 
+Update(2020-03-27):  Thanks to the work of StefanBruens and alalek, official OpenCV support for JPEG2000 files is moving from Jasper to OpenJPEG (see PR https://github.com/opencv/opencv/pull/16494 ) !
 
 ## Why this file ?
 This sample code is a minimal example for :
